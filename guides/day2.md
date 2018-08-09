@@ -25,34 +25,29 @@ that allows us to create a new record. Add it below where we defined
 
 ```python
 class CreatePersonalNote(graphene.Mutation):
-    """Handle the incoming data to create the new PersonalNote."""
 
     class Arguments:
-        # Input attributes for the mutation
         title = graphene.String()
         content = graphene.String()
 
+    personalnote = graphene.Field(PersonalNote)
     ok = graphene.Boolean()
-    note = graphene.Field(PersonalNote)
+    status = graphene.String()
 
     def mutate(self, info, title, content):
-        """Create the new PersonalNote."""
-        new_user = info.context.user
+        user = info.context.user
 
-        if new_user.is_anonymous:
-            new_ok = False
-            return CreatePersonalNote(ok=new_ok)
+        if user.is_anonymous:
+            return CreatePersonalNote(ok=False, status="Must be logged in!")
         else:
-            new_note = PersonalNote(title=title, content=content, user=new_user)
-            new_ok = True
+            new_note = PersonalNoteModel(title=title, content=content, user=user)
             new_note.save()
-            return CreatePersonalNote(note=new_note, ok=new_ok)
+            return CreatePersonalNote(personalnote=new_note, ok=True, status="ok")
 
 class Mutation(graphene.ObjectType):
-    create_note = CreatePersonalNote.Field()
+    create_personal_note = CreatePersonalNote.Field()
 
-# Add a schema and attach the mutation, as well as the query
 schema = graphene.Schema(query=Query, mutation=Mutation)
 ```
 
-Run the example query up top. What happens? What happens if you leave off the `title` field?
+Run the example query up top. What happens? What happens if you leave off the `title` field? What happens if we're logged in as an anonymous user?
