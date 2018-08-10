@@ -7,7 +7,7 @@ Mutations are how we change information in the database. In this example, we'll 
 ```graphql
 mutation {
   createPersonalNote(title:"test 5", content:"content 5") {
-    note {
+    personalnote {
       title
       content
     }
