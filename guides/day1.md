@@ -105,13 +105,13 @@ class PersonalNote(DjangoObjectType):
         model = PersonalNoteModel
 
         # Describe the data as a node in a graph for GraphQL
-        interface = (graphene.relay.Node, )
+        interfaces = (graphene.relay.Node, )
 
 class Query(graphene.ObjectType):
     """Describe which records we want to show."""
-    notes = graphene.List(PersonalNote)
+    personalnotes = graphene.List(PersonalNote)
 
-    def resolve_notes(self, info):
+    def resolve_personalnotes(self, info):
         """Decide what notes to return."""
         pass # TODO
 ```
@@ -162,7 +162,7 @@ So far we've
 * Installed graphene
 * Wrote this schema describing the data
 
-Let's configure in djorg/settings.py:
+Let's configure in `djorg/settings.py`:
 
 ```python
 GRAPHENE = {
@@ -172,7 +172,7 @@ GRAPHENE = {
 
 Need to make an endpoint URL. Just a single one for all the queries.
 
-`django/urls.py`:
+`djorg/urls.py`:
 
 ```python
 from graphene_django.views import GraphQLView
