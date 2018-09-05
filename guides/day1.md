@@ -109,7 +109,7 @@ class PersonalNote(DjangoObjectType):
 
 class Query(graphene.ObjectType):
     """Describe which records we want to show."""
-    notes = graphene.List(Note)
+    notes = graphene.List(PersonalNote)
 
     def resolve_notes(self, info):
         """Decide what notes to return."""
