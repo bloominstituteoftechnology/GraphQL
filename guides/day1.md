@@ -76,42 +76,24 @@ What next? Add to `INSTALLED_APPS`.
 
 Next, we need to define the schema that describes the data.
 
-New file `notes/schema.py`:
-
 ```python
 from graphene_django import DjangoObjectType
 import graphene
-from .models import PersonalNote  # Trouble brewing!
+from .models import PersonalNote
 
-class PersonalNote(DjangoObjectType):
-    pass  # TODO
-```
-
-We have to do something weird here. To have GraphQL expose our `PersonalNotes`
-as `PersonalNotes`, we have to call the schema class `PersonalNote`. But we
-already have a class `PersonalNote` in the model. This is a name collision.
-
-We'll work around this by aliasing our `PersonalNote` from `.models` using the
-`as` keyword.
-
-```python
-from graphene_django import DjangoObjectType
-import graphene
-from .models import PersonalNote as PersonalNoteModel  # <-- Right here
-
-class PersonalNote(DjangoObjectType):
+class PersonalNoteType(DjangoObjectType):
     """Describe which model we want to expose through GraphQL."""
     class Meta:
-        model = PersonalNoteModel
+        model = PersonalNote
 
         # Describe the data as a node in a graph for GraphQL
-        interface = (graphene.relay.Node, )
+        interfaces = (graphene.relay.Node, )
 
 class Query(graphene.ObjectType):
     """Describe which records we want to show."""
-    notes = graphene.List(PersonalNote)
+    personalnotes = graphene.List(PersonalNoteType)
 
-    def resolve_notes(self, info):
+    def resolve_personalnotes(self, info):
         """Decide what notes to return."""
         pass # TODO
 ```
@@ -124,19 +106,19 @@ Now let's finish `resolve_notes()` in `Query`:
 from django.conf import settings
 from graphene_django import DjangoObjectType
 import graphene
-from .models import PersonalNote as PersonalNoteModel
+from .models import PersonalNote
 
-class PersonalNote(DjangoObjectType):
+class PersonalNoteType(DjangoObjectType):
     """Describe which model we want to expose through GraphQL."""
     class Meta:
-        model = PersonalNoteModel
+        model = PersonalNote
 
         # Describing the data as a node in a graph for GraphQL
         interfaces = (graphene.relay.Node, )
 
 class Query(graphene.ObjectType):
     """Describe which records we want to show."""
-    personalnotes = graphene.List(PersonalNote)
+    personalnotes = graphene.List(PersonalNoteType)
 
     def resolve_personalnotes(self, info):
         """Decide what notes to return."""
