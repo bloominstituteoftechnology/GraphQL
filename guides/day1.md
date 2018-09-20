@@ -10,7 +10,7 @@ This is analogous to what we did with REST, but we'll be doing it with GraphQL i
 
 ## Experimentation with the graphiql Interface
 
-[Click here to get to the demo page.](https://www.howtographql.com/)
+[Click here to get to the demo page.](https://graphql.github.io/swapi-graphql/)
 
 Enter some queries in the left panel.
 
