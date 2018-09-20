@@ -1,5 +1,6 @@
 # GraphQL: Experimentation and Django back end
 
+
 This is analogous to what we did with REST, but we'll be doing it with GraphQL instead.
 
 ## Resources
