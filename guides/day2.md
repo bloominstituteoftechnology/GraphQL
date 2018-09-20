@@ -30,7 +30,7 @@ class CreatePersonalNote(graphene.Mutation):
         title = graphene.String()
         content = graphene.String()
 
-    personalnote = graphene.Field(PersonalNote)
+    personalnote = graphene.Field(PersonalNoteType)
     ok = graphene.Boolean()
     status = graphene.String()
 
