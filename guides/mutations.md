@@ -40,7 +40,7 @@ class CreatePersonalNote(graphene.Mutation):
         if user.is_anonymous:
             return CreatePersonalNote(ok=False, status="Must be logged in!")
         else:
-            new_note = PersonalNoteModel(title=title, content=content, user=user)
+            new_note = PersonalNote(title=title, content=content, user=user)
             new_note.save()
             return CreatePersonalNote(personalnote=new_note, ok=True, status="ok")
 

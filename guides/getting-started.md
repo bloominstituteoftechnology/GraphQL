@@ -125,9 +125,9 @@ class Query(graphene.ObjectType):
         user = info.context.user  # Find this with the debugger
 
         if user.is_anonymous:
-            return PersonalNoteModel.objects.none()
+            return PersonalNote.objects.none()
         else:
-            return PersonalNoteModel.objects.filter(user=user)
+            return PersonalNote.objects.filter(user=user)
 
 # Add a schema and attach to the query
 schema = graphene.Schema(query=Query)
